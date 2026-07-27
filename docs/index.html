@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>bluesky-mcp — a Model Context Protocol server for Bluesky</title>
+<meta name="description" content="Give any MCP agent the ability to post, read, and browse Bluesky / the AT Protocol. Account tools act as you; couchsky tools are public, read-only, no login." />
+<meta name="color-scheme" content="dark light" />
+<meta property="og:title" content="🦋 bluesky-mcp" />
+<meta property="og:description" content="An MCP server for Bluesky. Post & act as you, or read anything public with no login (the couchsky way)." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦋</text></svg>" />
+<style>
+  :root {
+    --bg: #0b1220; --panel: #111b2e; --line: #1e2c47; --ink: #eaf1fb; --ink-2: #a7b6d0; --ink-3: #6b7c9c;
+    --sky: #4aa8ff; --sky-2: #7cc4ff; --on-sky: #071626;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f4f8ff; --panel:#fff; --line:#dbe6f7; --ink:#0d1a2e; --ink-2:#3f5170; --ink-3:#7386a4; --sky:#1185fe; --sky-2:#0a6cd6; --on-sky:#fff; }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background:
+      radial-gradient(900px 380px at 82% -6%, rgba(74,168,255,.10), transparent 60%),
+      radial-gradient(700px 340px at 6% 4%, rgba(74,168,255,.06), transparent 55%), var(--bg);
+    background-attachment: fixed;
+    color: var(--ink); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased;
+    min-height: 100vh; padding: 0 20px;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 72px 0 64px; }
+  a { color: var(--sky); text-decoration: none; }
+  a:hover { color: var(--sky-2); text-decoration: underline; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--sky); }
+  h1 { font-size: clamp(2.1rem, 6vw, 3.2rem); letter-spacing: -.02em; margin: 10px 0 14px; }
+  .lede { color: var(--ink-2); font-size: clamp(1.02rem, 2.4vw, 1.2rem); max-width: 60ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 8px; }
+  .btn { font-family: var(--mono); font-size: 14px; font-weight: 600; padding: 11px 18px; border-radius: 10px; border: 1px solid var(--line); }
+  .btn-primary { background: var(--sky); color: var(--on-sky); border-color: transparent; }
+  .btn-primary:hover { background: var(--sky-2); color: var(--on-sky); text-decoration: none; }
+  .btn-ghost:hover { background: var(--panel); text-decoration: none; }
+  section { margin-top: 52px; }
+  h2 { font-size: 1.25rem; letter-spacing: -.01em; margin-bottom: 14px; }
+  .modes { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 620px) { .modes { grid-template-columns: 1fr 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .card h3 { font-size: 1rem; margin-bottom: 6px; }
+  .card h3 .tag { font-family: var(--mono); font-size: 11px; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-3); margin-left: 6px; }
+  .card p { color: var(--ink-2); font-size: 14.5px; }
+  pre { background: #060c17; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; color: #d7e3f7; }
+  @media (prefers-color-scheme: light) { pre { background: #0d1a2e; } }
+  .tools { display: grid; gap: 18px; }
+  .tgroup .label { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--ink-3); text-transform: uppercase; margin-bottom: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px 9px; }
+  .chip.pub { border-color: rgba(74,168,255,.4); color: var(--sky-2); }
+  footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">🦋 Model Context Protocol · AT Protocol</p>
+  <h1>bluesky-mcp</h1>
+  <p class="lede">Give any MCP agent the ability to post, read, and browse <strong>Bluesky</strong>. Account tools act as <em>you</em>; <strong>couchsky</strong> tools read anything public with <strong>no login</strong> — the read-only <a href="https://couchsky.app" target="_blank" rel="noopener">Couch&nbsp;Sky</a> way.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="https://github.com/8b-is/bluesky-mcp" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn btn-ghost" href="#install">Install</a>
+    <a class="btn btn-ghost" href="https://github.com/8b-is/bluesky-mcp/blob/main/AGENTS.md" target="_blank" rel="noopener">Agent guide</a>
+  </div>
+
+  <section>
+    <div class="modes">
+      <div class="card">
+        <h3>Account tools <span class="tag">auth</span></h3>
+        <p>Post, reply, like, repost, follow, and read your own timeline &amp; notifications — as your logged-in account. Needs a Bluesky app password.</p>
+      </div>
+      <div class="card">
+        <h3>couchsky tools <span class="tag">public · read-only</span></h3>
+        <p>Read any profile, feed, thread, or search through the public AppView. No login, no session, can never write. Reach for these first when you just need to look.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2>Install</h2>
+    <pre>git clone https://github.com/8b-is/bluesky-mcp.git
+cd bluesky-mcp
+npm install
+npm run build</pre>
+    <p style="color:var(--ink-2); font-size:14.5px; margin-top:14px;">Then point your MCP client at <code>dist/index.js</code>:</p>
+    <pre>{
+  "mcpServers": {
+    "bluesky": {
+      "command": "node",
+      "args": ["/absolute/path/to/bluesky-mcp/dist/index.js"]
+    }
+  }
+}</pre>
+    <p style="color:var(--ink-3); font-size:13.5px; margin-top:12px;">Add an app password to <code>.env</code> for the account tools (see <code>.env.example</code>). The <code>couchsky_*</code> read tools need no credentials.</p>
+  </section>
+
+  <section>
+    <h2>24 tools</h2>
+    <div class="tools">
+      <div class="tgroup">
+        <div class="label">Post &amp; act — as you</div>
+        <div class="chips"><span class="chip">bluesky_post</span><span class="chip">bluesky_reply</span><span class="chip">bluesky_like</span><span class="chip">bluesky_repost</span><span class="chip">bluesky_follow</span><span class="chip">bluesky_delete_post</span></div>
+      </div>
+      <div class="tgroup">
+        <div class="label">Read — your account</div>
+        <div class="chips"><span class="chip">bluesky_whoami</span><span class="chip">bluesky_timeline</span><span class="chip">bluesky_notifications</span><span class="chip">bluesky_notification_count</span><span class="chip">bluesky_get_post</span><span class="chip">bluesky_get_thread</span><span class="chip">bluesky_get_author_feed</span><span class="chip">bluesky_get_likes</span><span class="chip">bluesky_get_profile</span><span class="chip">bluesky_search</span><span class="chip">bluesky_search_actors</span><span class="chip">bluesky_get_followers</span><span class="chip">bluesky_get_follows</span><span class="chip">bluesky_resolve_handle</span></div>
+      </div>
+      <div class="tgroup">
+        <div class="label">couchsky — public, read-only, no login</div>
+        <div class="chips"><span class="chip pub">couchsky_profile</span><span class="chip pub">couchsky_author_feed</span><span class="chip pub">couchsky_thread</span><span class="chip pub">couchsky_search</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>MIT © Peter Lodri</span>
+    <a href="https://github.com/8b-is/bluesky-mcp" target="_blank" rel="noopener">source</a>
+    <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP</a>
+    <a href="https://atproto.com" target="_blank" rel="noopener">AT Protocol</a>
+    <a href="https://couchsky.app" target="_blank" rel="noopener">couchsky</a>
+    <span>🜂 ahogy a dolgok vannak</span>
+  </footer>
+</div>
+</body>
+</html>
