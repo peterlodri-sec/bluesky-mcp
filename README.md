@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/hero.svg" alt="bluesky-mcp — a Model Context Protocol server for Bluesky and the AT Protocol" width="820">
+</p>
+
 # 🦋 bluesky-mcp
 
 A [Model Context Protocol](https://modelcontextprotocol.io) server for **Bluesky** /

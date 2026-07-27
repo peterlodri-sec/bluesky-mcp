@@ -1,0 +1,72 @@
+<svg width="1200" height="340" viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="bluesky-mcp — a Model Context Protocol server for Bluesky and the AT Protocol">
+  <title>bluesky-mcp</title>
+  <defs>
+    <radialGradient id="bg" cx="80%" cy="-10%" r="110%">
+      <stop offset="0%" stop-color="#17253f"/>
+      <stop offset="52%" stop-color="#0d1526"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </radialGradient>
+    <linearGradient id="wingUp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8fccff"/>
+      <stop offset="100%" stop-color="#1185fe"/>
+    </linearGradient>
+    <linearGradient id="wingLo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4aa8ff"/>
+      <stop offset="100%" stop-color="#0a5fc4"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#eaf1fb"/>
+      <stop offset="100%" stop-color="#b9c8e2"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="340" fill="url(#bg)"/>
+
+  <!-- starfield -->
+  <g fill="#7cc4ff">
+    <circle cx="1092" cy="54" r="1.7" opacity=".7"/><circle cx="978" cy="38" r="1.1" opacity=".5"/>
+    <circle cx="1140" cy="150" r="1.3" opacity=".55"/><circle cx="1036" cy="232" r="1.5" opacity=".5"/>
+    <circle cx="900" cy="70" r="1" opacity=".4"/><circle cx="1160" cy="290" r="1.2" opacity=".45"/>
+    <circle cx="820" cy="300" r="1.1" opacity=".35"/><circle cx="1188" cy="86" r="1" opacity=".4"/>
+    <circle cx="700" cy="46" r="1" opacity=".3"/><circle cx="960" cy="300" r="1.3" opacity=".4"/>
+  </g>
+
+  <!-- butterfly mark -->
+  <g transform="translate(214 170)" filter="url(#soft)">
+    <ellipse cx="-54" cy="-26" rx="60" ry="48" fill="url(#wingUp)" transform="rotate(-16 -54 -26)"/>
+    <ellipse cx="54" cy="-26" rx="60" ry="48" fill="url(#wingUp)" transform="rotate(16 54 -26)"/>
+    <ellipse cx="-42" cy="44" rx="46" ry="40" fill="url(#wingLo)" transform="rotate(18 -42 44)"/>
+    <ellipse cx="42" cy="44" rx="46" ry="40" fill="url(#wingLo)" transform="rotate(-18 42 44)"/>
+    <ellipse cx="-54" cy="-34" rx="22" ry="15" fill="#cbe6ff" opacity=".5" transform="rotate(-16 -54 -34)"/>
+    <ellipse cx="54" cy="-34" rx="22" ry="15" fill="#cbe6ff" opacity=".5" transform="rotate(16 54 -34)"/>
+    <path d="M0 -66 C 12 -96 30 -100 40 -110" fill="none" stroke="#9fd4ff" stroke-width="3" stroke-linecap="round"/>
+    <path d="M0 -66 C -12 -96 -30 -100 -40 -110" fill="none" stroke="#9fd4ff" stroke-width="3" stroke-linecap="round"/>
+    <rect x="-4.5" y="-62" width="9" height="122" rx="4.5" fill="#e4f0ff"/>
+    <circle cx="0" cy="-64" r="7.5" fill="#f4f9ff"/>
+  </g>
+
+  <!-- wordmark + tagline -->
+  <text x="404" y="148" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace" font-size="70" font-weight="700" letter-spacing="-1.5" fill="url(#ink)">bluesky<tspan fill="#4aa8ff">-mcp</tspan></text>
+  <text x="407" y="192" font-family="-apple-system, 'Segoe UI', Roboto, system-ui, sans-serif" font-size="23" fill="#a7b6d0">A Model Context Protocol server for <tspan fill="#cbe6ff">Bluesky</tspan> &#183; the AT Protocol</text>
+
+  <!-- chips -->
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="15.5">
+    <g transform="translate(407 232)">
+      <rect width="196" height="34" rx="9" fill="#111b2e" stroke="#28497a"/>
+      <text x="16" y="22" fill="#9ec6f5">post &amp; act as you</text>
+    </g>
+    <g transform="translate(615 232)">
+      <rect width="338" height="34" rx="9" fill="#0e1830" stroke="#2f5a8f"/>
+      <circle cx="19" cy="17" r="4" fill="#4aa8ff"/>
+      <text x="33" y="22" fill="#7cc4ff">couchsky &#183; read-only, no login</text>
+    </g>
+    <g transform="translate(965 232)">
+      <rect width="122" height="34" rx="9" fill="#111b2e" stroke="#28497a"/>
+      <text x="16" y="22" fill="#9ec6f5">24 tools</text>
+    </g>
+  </g>
+</svg>
