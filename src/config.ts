@@ -6,8 +6,8 @@ import { dirname, resolve } from "node:path";
 // server works no matter what cwd the MCP client launches it from — then also
 // honour a .env in the launch cwd, with real environment variables winning.
 const here = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: resolve(here, "..", ".env") });
-dotenv.config();
+dotenv.config({ path: resolve(here, "..", ".env"), quiet: true });
+dotenv.config({ quiet: true });
 
 export interface BlueskyConfig {
   identifier: string;

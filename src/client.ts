@@ -15,12 +15,14 @@ interface XRPCResponse<T = unknown> {
 }
 
 class BlueskyClient {
-  private service: string;
   private session: Session | null = null;
-  private config = loadConfig();
+  // Public tools may start without account credentials. Validate only when used.
+  private get config() {
+    return loadConfig();
+  }
 
-  constructor() {
-    this.service = this.config.service.replace(/\/$/, "");
+  private get service(): string {
+    return this.config.service.replace(/\/$/, "");
   }
 
   async ensureAuth(): Promise<void> {
@@ -78,7 +80,8 @@ class BlueskyClient {
     method: "GET" | "POST",
     lex: string,
     body?: unknown,
-    params?: URLSearchParams
+    params?: URLSearchParams,
+    retried = false
   ): Promise<XRPCResponse<T>> {
     const url = new URL(`${this.service}/xrpc/${lex}`);
     if (params) url.search = params.toString();
@@ -102,9 +105,9 @@ class BlueskyClient {
 
     const res = await fetch(url.toString(), fetchOptions);
 
-    if (res.status === 401 && this.session) {
+    if (res.status === 401 && this.session && !retried) {
       await this.refreshSession();
-      return this.request(method, lex, body, params);
+      return this.request(method, lex, body, params, true);
     }
 
     const data = await res.json().catch(() => ({}));
@@ -146,6 +149,10 @@ class BlueskyClient {
   }
 
   async uploadBlob(data: Uint8Array, mimeType: string): Promise<{ blob: { $type: string; ref: { $link: string }; mimeType: string; size: number } }> {
+    return this.uploadBlobWithRetry(data, mimeType);
+  }
+
+  private async uploadBlobWithRetry(data: Uint8Array, mimeType: string, retried = false): Promise<{ blob: { $type: string; ref: { $link: string }; mimeType: string; size: number } }> {
     await this.ensureAuth();
     const url = `${this.service}/xrpc/com.atproto.repo.uploadBlob`;
 
@@ -158,9 +165,9 @@ class BlueskyClient {
       body: data as unknown as BodyInit,
     });
 
-    if (res.status === 401 && this.session) {
+    if (res.status === 401 && this.session && !retried) {
       await this.refreshSession();
-      return this.uploadBlob(data, mimeType);
+      return this.uploadBlobWithRetry(data, mimeType, true);
     }
 
     if (!res.ok) {

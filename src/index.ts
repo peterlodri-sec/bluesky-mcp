@@ -2,7 +2,6 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { client } from "./client.js";
-import { loadConfig } from "./config.js";
 
 // ---------------------------------------------------------------------------
 // RichText handling: detect facets (mentions, links, tags)
@@ -605,14 +604,6 @@ async function publicGet(lex: string, params: Record<string, string | number | u
 // ---------------------------------------------------------------------------
 
 async function main() {
-  try {
-    loadConfig();
-  } catch (err) {
-    console.error((err as Error).message);
-    console.error("Set BLUESKY_IDENTIFIER (your handle or email) and BLUESKY_APP_PASSWORD");
-    process.exit(1);
-  }
-
   const server = createServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);

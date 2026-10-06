@@ -82,3 +82,10 @@ npm run build    # tsc → dist/
 ## License
 
 MIT © Peter Lodri · 🜂 *ahogy a dolgok vannak*
+
+### Anonymous startup and tests
+
+The server starts without account credentials for `couchsky_*` public reads.
+Account tools validate `BLUESKY_IDENTIFIER` and `BLUESKY_APP_PASSWORD` when called.
+Run `npm test` to build and exercise a real SDK stdio session with synthetic
+public responses, no credentials, and no external network requests.

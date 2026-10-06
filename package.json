@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "test": "npm run build && node --test tests/*.test.mjs"
   },
   "keywords": [
     "bluesky",
@@ -16,7 +17,10 @@
   ],
   "author": "Peter Lodri",
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/8b-is/bluesky-mcp.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/8b-is/bluesky-mcp.git"
+  },
   "homepage": "https://8b-is.github.io/bluesky-mcp/",
   "bugs": "https://github.com/8b-is/bluesky-mcp/issues",
   "dependencies": {
